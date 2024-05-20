@@ -1,3 +1,4 @@
+import yahoo_finance
 class StockAction():
     def __init__(self, stock):
         self.stock = stock
