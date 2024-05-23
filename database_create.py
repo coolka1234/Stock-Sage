@@ -1,6 +1,6 @@
 import sqlite3
 
-def create_database():
+def create_news_database():
     conn = sqlite3.connect('news.db')
     cursor = conn.cursor()
 
@@ -20,4 +20,22 @@ def create_database():
     conn.commit()
     conn.close()
 
-create_database()
+
+def create_stock_database():
+    conn = sqlite3.connect('stocks.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS stock_prices (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        company_name TEXT,
+        company_token TEXT,
+        date TEXT,
+        closing_price REAL,
+        change REAL
+    )
+    ''')
+
+    conn.commit()
+    conn.close()
+
