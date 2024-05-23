@@ -1,8 +1,8 @@
 from newsapi import NewsApiClient
+from api_codes import news_api
 import sqlite3
 
-# 1727a68759c54ed9a2cfddd60bd8232f
-newsapi = NewsApiClient(api_key='1727a68759c54ed9a2cfddd60bd8232f')
+newsapi = NewsApiClient(api_key=news_api)
 
 def fetch_and_store_articles(keyword=None, from_date=None, to_date=None):
     articles = newsapi.get_everything(q=keyword, from_param=from_date, to=to_date, language='en', sort_by='publishedAt')
