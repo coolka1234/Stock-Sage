@@ -14,10 +14,10 @@ class StockAction():
         self.change = row[6]
     
     def get_row_by_number(row_number):
-        conn = sqlite3.connect('news.db')
+        conn = sqlite3.connect('non_api_stocks.db')
         cursor = conn.cursor()
 
-        cursor.execute('SELECT * FROM articles WHERE id = ?', (row_number,))
+        cursor.execute('SELECT * FROM stock_prices WHERE id = ?', (row_number,))
 
         row = cursor.fetchone()
         conn.close()

@@ -35,4 +35,5 @@ def np_stock():
         curr_stock= StockAction.StockAction(i)
         stock_array=np.append(stock_array,curr_stock)
     conn.close()
+    cursor.close()
     return stock_array
