@@ -39,3 +39,24 @@ def create_stock_database():
     conn.commit()
     conn.close()
 
+def delete_news_database():
+    conn = sqlite3.connect('news.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+    DROP TABLE IF EXISTS articles
+    ''')
+
+    conn.commit()
+    conn.close()
+
+def delete_stock_database():
+    conn = sqlite3.connect('stocks.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+    DROP TABLE IF EXISTS stock_prices
+    ''')
+
+    conn.commit()
+    conn.close()
