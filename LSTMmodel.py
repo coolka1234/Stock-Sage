@@ -6,7 +6,7 @@ import numpy as np
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import LSTM, Dense
 from datetime import datetime
 from create_data_structures import np_news, np_stock
@@ -69,7 +69,7 @@ model.add(Dense(1))  # Output layer for predicting stock price
 
 model.compile(optimizer='adam', loss='mean_squared_error')
 
-model.fit(X_train, y_train, epochs=20, batch_size=32, validation_data=(X_test, y_test))
+model.fit(X_train, y_train, epochs=15000, batch_size=32, validation_data=(X_test, y_test))
 
 from sklearn.metrics import mean_squared_error
 
@@ -78,5 +78,16 @@ mse = mean_squared_error(y_test, predictions)
 mape= np.mean(np.abs((y_test - predictions) / y_test)) * 100
 print(f'Mean Squared Error: {mse}')
 print(f'Mean Absolute Percentage Error: {mape}')
+model.save('stock_prediction_model.h5')
+import matplotlib.pyplot as plt
+predictions=predictions.flatten()
+y_test=y_test.flatten()
 print(f'Test: {y_test}')
 print(f'Predictions: {predictions}')
+plt.plot(y_test, label='Real Values')
+plt.plot(predictions, label='Predicted Values')
+plt.xlabel('Index')
+plt.ylabel('Stock Price')
+plt.title('Real vs Predicted Stock Prices')
+plt.legend()
+plt.show()

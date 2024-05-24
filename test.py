@@ -11,13 +11,17 @@ def main():
     # # delete_news_database()
     # # create_news_database()
     # delete_stock_database()
-    fetch_and_store_articles(keyword='Google', from_date='2024-04-24', to_date='2024-05-23')
+    # for i in range(1, 18):
+    #     if(i<10):
+    #         day=str('0'+str(i))
+    #     else:
+    #         day=str(i)
+    #     fetch_and_store_articles(keyword='Microsoft', from_date='2024-05-01', to_date=''.join(['2024-05-',day]))
+    # fetch_and_store_articles(keyword='Apple', from_date='2024-04-24', to_date='2024-05-19')
     # create_stock_database()
     # fetch_and_store_stock_data('AAPL', 'Apple Inc.')
-    # fetch_and_store_stock_data('MSFT', 'Microsoft Corporation')
+    # fetch_and_store_stock_data('GOOGL', 'Google Inc.')
     update_all_news()
-    # print(find_all('Apple Inc. is a company that makes phones', ['Apple', 'Microsoft']))
     print("")
-
 if __name__ == "__main__":
     main()

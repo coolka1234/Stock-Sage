@@ -1,6 +1,8 @@
 import sqlite3
 import NewsFeature
 import csv
+from bs4 import BeautifulSoup
+import requests
 def update_single_news_row(name, data, index):
     conn = sqlite3.connect('news.db')
     cursor = conn.cursor()
@@ -21,13 +23,13 @@ def contains_any(string, string_list):
 
 def find_all(string, string_list):
     list= [s for s in string_list if s in string]
-    print(list)
     return list
 
 def scrape_content(url):
-    from bs4 import BeautifulSoup
-    import requests
-    page = requests.get(url)
+    try:
+        page = requests.get(url)
+    except:
+        return ''
     soup = BeautifulSoup(page.content, 'html.parser')
     content = soup.find_all('p')
     data = ''
@@ -51,7 +53,9 @@ def update_all_news():
         if('chars' in curr_news.content):
             data = scrape_content(url)
             update_single_news_row('content', data, url)
-        companies = ''.join(find_all(row[7], companies_of_interest_list)) 
-        cursor.execute('UPDATE articles SET companies = ? WHERE id = ?', (companies, row[0]))
+        if(curr_news.companies == ''):
+            companies = ''.join(find_all(row[7], companies_of_interest_list))
+            if(companies == ''):
+                cursor.execute('UPDATE articles SET companies = ? WHERE id = ?', (companies, row[0]))
         conn.commit()
     conn.close()
