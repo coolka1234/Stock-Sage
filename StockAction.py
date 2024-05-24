@@ -1,16 +1,27 @@
 import yfinance as yf
+import sqlite3
+import datetime
 class StockAction():
-    def __init__(self, stock_symbol):
-        self.stock = yf.Ticker(stock_symbol)
-        self.stock_symbol = stock_symbol
-        self.price = self.stock.history(period='1d')['Close'].iloc[0]
-        self.change = self.stock.history(period='1d')['Close'].iloc[0] - self.stock.history(period='1d')['Open'].iloc[0]
-        self.volume = self.stock.history(period='1d')['Volume'].iloc[0]
-        self.prev_close = self.stock.history(period='1d')['Close'].iloc[0]
-        self.open = self.stock.history(period='1d')['Open'].iloc[0]
-        self.avg_daily_volume = self.stock.info['averageVolume']
-        self.stock_exchange = self.stock.info['exchange']
-        self.dividend_yield = self.stock.info['dividendYield']
+    def __init__(self, row_number=1):
+        self.row_number = row_number
+        row = StockAction.get_row_by_number(self.row_number)
+        self.id = row[0]
+        self.company_name = row[1].split(' ')[0]
+        self.company_token = row[2]
+        self.date = datetime.datetime.strptime(row[3], '%Y-%m-%d')
+        self.opening_price = row[4]
+        self.closing_price = row[5]
+        self.change = row[6]
+    
+    def get_row_by_number(row_number):
+        conn = sqlite3.connect('news.db')
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT * FROM articles WHERE id = ?', (row_number,))
+
+        row = cursor.fetchone()
+        conn.close()
+        return row
 
 if __name__=='__main__':
     stock_symbol = 'AAPL'

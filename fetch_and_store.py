@@ -14,8 +14,8 @@ def store_articles_in_db(articles):
 
     for article in articles:
         cursor.execute('''
-        INSERT INTO articles (source, author, title, description, url, published_at, content)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO articles (source, author, title, description, url, published_at, content, companies)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             article['source']['name'],
             article.get('author'),
@@ -23,7 +23,8 @@ def store_articles_in_db(articles):
             article.get('description'),
             article['url'],
             article['publishedAt'],
-            article.get('content')
+            article.get('content'),
+            '',
         ))
 
     conn.commit()

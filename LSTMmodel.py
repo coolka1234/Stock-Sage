@@ -1,3 +1,4 @@
+from math import comb
 import yfinance as yf
 from newspaper import Article
 import pandas as pd
@@ -5,60 +6,57 @@ import numpy as np
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
-from tensorflow import keras
-from keras.models import Sequential
-from keras.layers import LSTM, Dense
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
 from datetime import datetime
+from create_data_structures import np_news, np_stock
+from NewsFeature import NewsFeature
+from StockAction import StockAction
 import nltk
 nltk.download('punkt')
 
 
-def fetch_article(url):
-    article = Article(url)
-    article.download()
-    article.parse()
-    article.nlp()
-    return article.publish_date, article.summary
+articles : np.ndarray[NewsFeature]=np_news()
+stock_data: np.ndarray[StockAction]=np_stock()
 
-def fetch_stock_data(symbol, start_date, end_date):
-    stock = yf.Ticker(symbol)
-    hist = stock.history(start=start_date, end=end_date)
-    return hist
-
-urls = ['https://example.com/news_article1', 'https://example.com/news_article2']
-articles = [fetch_article(url) for url in urls]
-
-symbol = 'AAPL'
-start_date = '2023-01-01'
-end_date = '2023-12-31'
-stock_data = fetch_stock_data(symbol, start_date, end_date)
 
 def preprocess_text(text):
-    text = re.sub(r'\W', ' ', text)
-    text = re.sub(r'\s+', ' ', text)
-    text = re.sub(r'\d+', '', text)
-    text = text.lower()
+    text = re.sub(r'\W', ' ', text) #znaki specjalne na spacje
+    text = re.sub(r'\s+', ' ', text) #wiecej niz jedna spacja na jedna spacje
+    text = re.sub(r'\d+', '', text) #usuwanie cyfr
+    text = text.lower() #zmiana na male litery
     return text
 
-summaries = [preprocess_text(article[1]) for article in articles]
-dates = [article[0] for article in articles]
+for article in articles:
+    article.content = preprocess_text(article.content)
+
+combined_data = []
+
+for entry in stock_data:
+    news = [article.content for article in articles if article.real_date == entry.date and entry.company_name in article.companies]
+    combined_data.append({'date': entry.date, 'company': entry.company_name, 'open_price': entry.open_price, 'close_price': entry.close_price, 'articles': articles})
+
+combined_data = [entry for entry in combined_data if entry['articles']] #usuwanie pustych list
 
 vectorizer = TfidfVectorizer(max_features=500)
-text_features = vectorizer.fit_transform(summaries).toarray()
+all_articles = [' '.join(entry['articles']) for entry in combined_data]
+text_features = vectorizer.fit_transform(all_articles).toarray()
 
-def align_stock_data_with_articles(dates, stock_data):
-    stock_features = []
-    for date in dates:
-        stock_info = stock_data.loc[date.strftime('%Y-%m-%d')]
-        stock_features.append(stock_info[['Open', 'Close']].values)
-    return np.array(stock_features)
+features = []
+targets = []
 
-dates = [date for date in dates if date.strftime('%Y-%m-%d') in stock_data.index]
-stock_features = align_stock_data_with_articles(dates, stock_data)
+for i, entry in enumerate(combined_data):
+    open_price = entry.open_price
+    close_price = entry.close_price
+    stock_features = [open_price, close_price]
+    combined_features = np.hstack((text_features[i], stock_features))
+    features.append(combined_features)
+    targets.append(close_price)
 
-combined_features = np.hstack((text_features, stock_features))
+features = np.array(features)
+targets = np.array(targets)
 
-X_train, X_test, y_train, y_test = train_test_split(combined_features[:-1], stock_data['Close'].values[1:], test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, random_state=42)
 
 X_train = np.expand_dims(X_train, axis=1)
 X_test = np.expand_dims(X_test, axis=1)
