@@ -10,6 +10,7 @@ def create_stock_database():
         company_name TEXT,
         company_token TEXT,
         date TEXT,
+        opening_price REAL,
         closing_price REAL,
         change REAL
     )
@@ -18,4 +19,13 @@ def create_stock_database():
     conn.commit()
     conn.close()
 
-create_stock_database()
+def delete_stock_database():
+    conn = sqlite3.connect('non_api_stocks.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+    DROP TABLE IF EXISTS stock_prices
+    ''')
+
+    conn.commit()
+    conn.close()

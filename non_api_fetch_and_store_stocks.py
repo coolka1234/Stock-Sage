@@ -1,9 +1,9 @@
 import yfinance as yf
 import sqlite3
 
-def fetch_and_store_stock_data(symbol, company_name):
+def fetch_and_store_stock_data(symbol, company_name, period='1mo'):
     stock = yf.Ticker(symbol)
-    hist = stock.history(period="1mo")  # Fetches the last month of data
+    hist = stock.history(period=period)  # Fetches the last month of data
 
     conn = sqlite3.connect('non_api_stocks.db')
     cursor = conn.cursor()
@@ -15,12 +15,13 @@ def fetch_and_store_stock_data(symbol, company_name):
         date_str = date.strftime('%Y-%m-%d')
 
         cursor.execute('''
-        INSERT INTO stock_prices (company_name, company_token, date, closing_price, change)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO stock_prices (company_name, company_token, date, opening_price, closing_price, change)
+        VALUES (?, ?, ?, ?, ?, ?)
         ''', (
             company_name,
             symbol,
             date_str,
+            opening_price,
             closing_price,
             change
         ))
@@ -46,8 +47,9 @@ def print_stock_data(stocks):
         print(f"Company Name: {stock[1]}")
         print(f"Company Token: {stock[2]}")
         print(f"Date: {stock[3]}")
-        print(f"Closing Price: {stock[4]}")
-        print(f"Change: {stock[5]}")
+        print(f"Opening Price: {stock[4]}")
+        print(f"Closing Price: {stock[5]}")
+        print(f"Change: {stock[6]}")
         print("-" * 80)
 
 
