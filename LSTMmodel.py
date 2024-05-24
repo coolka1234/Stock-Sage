@@ -34,11 +34,12 @@ combined_data = []
 
 for entry in stock_data:
     news = [article.content for article in articles if article.real_date == entry.date and entry.company_name in article.companies]
-    combined_data.append({'date': entry.date, 'company': entry.company_name, 'open_price': entry.open_price, 'close_price': entry.close_price, 'articles': articles})
+    combined_data.append({'date': entry.date, 'company': entry.company_name, 'open_price': entry.opening_price, 'close_price': entry.closing_price, 'articles': news})
 
 combined_data = [entry for entry in combined_data if entry['articles']] #usuwanie pustych list
 
 vectorizer = TfidfVectorizer(max_features=500)
+
 all_articles = [' '.join(entry['articles']) for entry in combined_data]
 text_features = vectorizer.fit_transform(all_articles).toarray()
 
@@ -46,8 +47,8 @@ features = []
 targets = []
 
 for i, entry in enumerate(combined_data):
-    open_price = entry.open_price
-    close_price = entry.close_price
+    open_price = entry['open_price']
+    close_price = entry['close_price']
     stock_features = [open_price, close_price]
     combined_features = np.hstack((text_features[i], stock_features))
     features.append(combined_features)
@@ -74,4 +75,8 @@ from sklearn.metrics import mean_squared_error
 
 predictions = model.predict(X_test)
 mse = mean_squared_error(y_test, predictions)
+mape= np.mean(np.abs((y_test - predictions) / y_test)) * 100
 print(f'Mean Squared Error: {mse}')
+print(f'Mean Absolute Percentage Error: {mape}')
+print(f'Test: {y_test}')
+print(f'Predictions: {predictions}')

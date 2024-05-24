@@ -35,3 +35,6 @@ class NewsFeature():
         row = cursor.fetchone()
         conn.close()
         return row
+    
+    def __str__(self):
+        return f'{self.content}'
