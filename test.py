@@ -22,7 +22,17 @@ def main():
     # print_stock_data(stocks)
     sites = [
     'https://www.onet.pl/',
-    'https://www.tvn24.pl/',]
+    'https://www.tvn24.pl/',
+    "https://www.cnbc.com/world/?region=world",
+    "https://www.reuters.com/business",
+    "https://www.bbc.com/news/business",
+    "https://www.theguardian.com/business",
+    "https://www.ft.com/",
+    "https://www.wsj.com/",
+    "https://www.economist.com/",
+    "https://www.forbes.com/",
+    'https://www.google.com/finance/',
+    'https://www.marketwatch.com/',]
     create_news_database()
     fetch_and_store_articles_from_sites(sites)
 
