@@ -6,7 +6,6 @@ from matplotlib.text import TextPath
 from matplotlib.transforms import Affine2D
 fig, ax = plt.subplots(figsize=(5.12, 5.12))
 
-# Set the background color
 ax.set_facecolor('white')
 
 hat_base = FancyBboxPatch((0.35, 0.6), 0.3, 0.1, boxstyle="round,pad=0.1", 

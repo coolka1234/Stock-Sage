@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Stock Sage</string>
+   <string>News Briefing - Stock Sage</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -39,21 +39,21 @@
    <widget class="QLabel" name="labelTitle">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>30</x>
       <y>30</y>
-      <width>981</width>
-      <height>171</height>
+      <width>211</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Verdana Pro Cond Semibold</family>
-      <pointsize>72</pointsize>
+      <pointsize>22</pointsize>
       <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>Stock Sage</string>
+     <string>News Briefing</string>
     </property>
     <property name="textFormat">
      <enum>Qt::TextFormat::AutoText</enum>
@@ -62,136 +62,175 @@
      <bool>false</bool>
     </property>
     <property name="alignment">
-     <set>Qt::AlignmentFlag::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QListWidget" name="listWidgetNews">
     <property name="geometry">
      <rect>
-      <x>880</x>
-      <y>650</y>
-      <width>111</width>
-      <height>21</height>
+      <x>25</x>
+      <y>111</y>
+      <width>591</width>
+      <height>561</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Yu Gothic UI Semibold</family>
-      <pointsize>6</pointsize>
-      <italic>false</italic>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Author: Krzysztof Kulka 2024</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>190</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>5</pointsize>
-      <italic>true</italic>
-     </font>
-    </property>
-    <property name="text">
-     <string>v1.0</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>250</y>
-      <width>391</width>
-      <height>401</height>
+      <x>640</x>
+      <y>120</y>
+      <width>301</width>
+      <height>551</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="spacing">
-      <number>23</number>
-     </property>
-     <property name="sizeConstraint">
-      <enum>QLayout::SizeConstraint::SetNoConstraint</enum>
-     </property>
-     <property name="leftMargin">
-      <number>10</number>
-     </property>
-     <property name="topMargin">
-      <number>10</number>
-     </property>
-     <property name="rightMargin">
-      <number>10</number>
-     </property>
-     <property name="bottomMargin">
-      <number>10</number>
-     </property>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <widget class="QPushButton" name="pushButtonStockPrediction">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QLabel" name="labelTitle_2">
        <property name="font">
         <font>
-         <family>Bahnschrift Condensed</family>
-         <pointsize>36</pointsize>
+         <family>Verdana Pro Cond Semibold</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>Stock Prediction</string>
+        <string>Keyword:</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::TextFormat::AutoText</enum>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonNewsBriefing">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift Condensed</family>
-         <pointsize>36</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>News Briefing</string>
+      <widget class="QLineEdit" name="lineEditKeywoardInput">
+       <property name="placeholderText">
+        <string>Input keyword...</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonStockBriefing">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift Condensed</family>
-         <pointsize>36</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Stock Briefing</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="labelTitle_3">
+         <property name="font">
+          <font>
+           <family>Verdana Pro Cond Semibold</family>
+           <pointsize>22</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Date Filter</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::TextFormat::AutoText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelFrom">
+         <property name="text">
+          <string>From:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateTimeEdit" name="dateTimeEditFrom">
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelTo">
+         <property name="text">
+          <string>To:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateTimeEdit" name="dateTimeEditTo">
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="labelTitleLanguage">
+         <property name="font">
+          <font>
+           <family>Verdana Pro Cond Semibold</family>
+           <pointsize>22</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Language:</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::TextFormat::AutoText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox">
+         <property name="placeholderText">
+          <string>Select language...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="labelTitleLanguage_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>6</horstretch>
+           <verstretch>7</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Verdana Pro Cond Semibold</family>
+           <pointsize>22</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Sort by:</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::TextFormat::AutoText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_2">
+         <property name="placeholderText">
+          <string>Select sorting method...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
