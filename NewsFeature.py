@@ -27,5 +27,24 @@ class NewsFeature():
         conn.close()
         return row
     
+    def get_row_by_description(description):
+        conn = sqlite3.connect('news.db')
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT * FROM articles WHERE description = ?', (description,))
+
+        row = cursor.fetchone()
+        conn.close()
+        return row
+    def get_id_by_description(description):
+        conn = sqlite3.connect('news.db')
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT id FROM articles WHERE description = ?', (description,))
+
+        id = cursor.fetchone()
+        conn.close()
+        return id[0]
+    
     def __str__(self):
         return f'{self.content}'

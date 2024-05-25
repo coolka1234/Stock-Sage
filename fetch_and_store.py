@@ -4,9 +4,11 @@ import sqlite3
 
 newsapi = NewsApiClient(api_key=news_api)
 
-def fetch_and_store_articles(keyword=None, from_date=None, to_date=None):
-    articles = newsapi.get_everything(q=keyword, from_param=from_date, to=to_date, language='en', sort_by='publishedAt')
+def fetch_and_store_articles(keyword=None, from_date=None, to_date=None, language='en-US', sort_by='publishedAt'):
+    articles = newsapi.get_everything(q=keyword, from_param=from_date, to=to_date, language=language, sort_by=sort_by)
+    print(articles)
     store_articles_in_db(articles['articles'])
+    return articles
 
 def store_articles_in_db(articles):
     conn = sqlite3.connect('news.db')
