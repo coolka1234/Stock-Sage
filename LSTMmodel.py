@@ -1,4 +1,5 @@
 from math import comb
+from tabnanny import verbose
 import yfinance as yf
 from newspaper import Article
 import pandas as pd
@@ -65,12 +66,12 @@ X_test = np.expand_dims(X_test, axis=1)
 model = Sequential()
 model.add(LSTM(50, return_sequences=True, input_shape=(X_train.shape[1], X_train.shape[2])))
 model.add(LSTM(50))
-model.add(Dense(1))  # Output layer for predicting stock price
+model.add(Dense(1))  # wynikowa wartosc
 
 model.compile(optimizer='adam', loss='mean_squared_error')
-
-model.fit(X_train, y_train, epochs=15000, batch_size=32, validation_data=(X_test, y_test))
-
+model=load_model('stock_prediction_model.h5')
+# model.fit(X_train, y_train, epochs=20, batch_size=32, validation_data=(X_test, y_test))
+# loss = model.evaluate(X_test, y_test, verbose=1)
 from sklearn.metrics import mean_squared_error
 
 predictions = model.predict(X_test)
@@ -78,7 +79,7 @@ mse = mean_squared_error(y_test, predictions)
 mape= np.mean(np.abs((y_test - predictions) / y_test)) * 100
 print(f'Mean Squared Error: {mse}')
 print(f'Mean Absolute Percentage Error: {mape}')
-model.save('stock_prediction_model.h5')
+# model.save('stock_prediction_model.h5')
 import matplotlib.pyplot as plt
 predictions=predictions.flatten()
 y_test=y_test.flatten()
