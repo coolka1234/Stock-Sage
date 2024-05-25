@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import QDateTime, QDate
 from fetch_and_store import fetch_and_store_articles, get_articles_by_date
-from utility_functions import change_date_format
+from utility_functions import change_date_format, find_between
 from PyQt6.QtCore import QDateTime, QDate
 from SingleArticleWindow import SingleArticleWindow
 from NewsFeature import NewsFeature
@@ -60,7 +60,7 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
 
     def open_news(self):
         clicked_item = self.listWidgetNews.currentItem().text()
-        description = clicked_item.split('\n')[1].split(': ')[1]
+        description = find_between(clicked_item, 'Description: ', '\nURL')
         self.news= SingleArticleWindow(NewsFeature=NewsFeature(NewsFeature.get_id_by_description(description)))
         self.news.show()
 

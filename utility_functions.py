@@ -17,3 +17,11 @@ def change_date_format(date_string):
     dt = datetime.strptime(date_string, "%d/%m/%Y %H:%M")
     formatted_date = dt.strftime("%Y-%m-%dT%H:%M:%S")
     return formatted_date
+
+def find_between(s, first, last):
+    try:
+        start = s.index(first) + len(first)
+        end = s.index(last, start)
+        return s[start:end]
+    except ValueError:
+        return ""
