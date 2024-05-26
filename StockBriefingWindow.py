@@ -14,18 +14,21 @@ class StockBriefingWindow(QMainWindow, Ui_MainMenuWindow):
     def display_stock_data(self):
         symbol = self.lineEditSymbolnput.text()
         Period = self.comboBox.currentText()
+        interval=self.comboBox_2.currentText()
         if symbol == '':
             return
         if (Period == ' '):
             Period = '1mo'
         # stock = StockAction(symbol)
-        StockAction.graph_stock_data(symbol, Period)
+        StockAction.graph_stock_data(symbol, Period, interval=interval)
         pixmap=QPixmap('plots/stock_data.png')
         self.labelSypckGraph.setPixmap(pixmap)
     
     def fillComboBoxes(self):
         periods = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
         self.comboBox.addItems(periods)
+        intervals = ['1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo']
+        self.comboBox_2.addItems(intervals)
 
 if __name__ == '__main__':
     import sys

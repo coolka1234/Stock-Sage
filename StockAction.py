@@ -2,6 +2,8 @@ import os
 import yfinance as yf
 import sqlite3
 import datetime
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import mplfinance as mpf
 import pandas as pd
@@ -26,14 +28,16 @@ class StockAction():
         row = cursor.fetchone()
         conn.close()
         return row
-    def graph_stock_data(symbol, period='1mo'):
+    def graph_stock_data(symbol, period='1mo', interval='1d'):
+        if period == '':
+            period = '1mo'
+        if symbol == '':
+            return
+        plt.ioff()
         ticker = yf.Ticker(symbol)
-        data = ticker.history(period=period)
+        data = ticker.history(period=period, interval=interval)
         data.index = pd.to_datetime(data.index)
-
-    # Create a new figure and plot the data
         mpf.plot(data, type='candle', style='charles', title=symbol, volume=True)
-
         if os.path.exists('plots/stock_data.png'):
             os.remove('plots/stock_data.png')
         if not os.path.exists('plots'):

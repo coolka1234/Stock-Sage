@@ -29,6 +29,34 @@ def fetch_and_store_stock_data(symbol, company_name, period='1mo'):
     conn.commit()
     conn.close()
 
+def fetch_and_store_stock_data_to_temporary_db(symbol, company_name, period='1d'):
+    stock = yf.Ticker(symbol)
+    hist = stock.history(period=period)
+
+    conn = sqlite3.connect('temporary_stocks.db')
+    cursor = conn.cursor()
+
+    for date, row in hist.iterrows():
+        closing_price = row['Close']
+        opening_price = row['Open']
+        change = closing_price - opening_price
+        date_str = date.strftime('%Y-%m-%d')
+
+        cursor.execute('''
+        INSERT INTO stock_prices (company_name, company_token, date, opening_price, closing_price, change)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ''', (
+            company_name,
+            symbol,
+            date_str,
+            opening_price,
+            closing_price,
+            change
+        ))
+
+    conn.commit()
+    conn.close()
+
 def get_stock_data_by_date(from_date, to_date):
     conn = sqlite3.connect('non_api_stocks.db')
     cursor = conn.cursor()
