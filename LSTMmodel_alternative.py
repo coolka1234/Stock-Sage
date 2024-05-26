@@ -74,7 +74,7 @@ model.add(Dense(1))  # Output layer for predicting stock price
 model.compile(optimizer='adam', loss='mean_squared_error')
 
 # Train the model
-model.fit(X_train, y_train, epochs=200, batch_size=32, validation_data=(X_test, y_test))
+model.fit(X_train, y_train, epochs=20000, batch_size=32, validation_data=(X_test, y_test))
 
 # Save the model and vectorizer
 model.save('stock_prediction_model.h5')

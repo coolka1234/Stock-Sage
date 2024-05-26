@@ -8,9 +8,14 @@ import matplotlib.pyplot as plt
 import mplfinance as mpf
 import pandas as pd
 class StockAction():
-    def __init__(self, row_number=1):
+    def __init__(self, row_number=1, temp=False):
         self.row_number = row_number
-        row = StockAction.get_row_by_number(self.row_number)
+        row = []
+        if temp:
+            row =StockAction.get_row_by_number_temp(self.row_number)
+        else:
+            row = StockAction.get_row_by_number(self.row_number)
+        # row = StockAction.get_row_by_number(self.row_number)
         self.id = row[0]
         self.company_name = row[1].split(' ')[0]
         self.company_token = row[2]
@@ -44,6 +49,16 @@ class StockAction():
             os.makedirs('plots')
         plt.savefig('plots/stock_data.png', bbox_inches='tight')
         plt.close()
+    
+    def get_row_by_number_temp(row_number):
+        conn = sqlite3.connect('temporary_stocks.db')
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT * FROM stock_prices WHERE id = ?', (row_number,))
+
+        row = cursor.fetchone()
+        conn.close()
+        return row
 
 if __name__=='__main__':
     stock_symbol = 'AAPL'

@@ -2,9 +2,14 @@ import sqlite3
 from collections import namedtuple
 import datetime
 class NewsFeature():
-    def __init__(self, num_from_db=1):
+    def __init__(self, num_from_db=1, Temp=False):
         self.num_from_db = num_from_db
-        row= NewsFeature.get_row_by_number(self.num_from_db)
+        row = []
+        if Temp:
+            row= NewsFeature.get_row_by_number_temp(self.num_from_db)
+        else:
+            row= NewsFeature.get_row_by_number(self.num_from_db)
+        # row= NewsFeature.get_row_by_number(self.num_from_db)
         self.id = row[0]
         self.source = row[1]
         self.author = row[2]
@@ -24,6 +29,14 @@ class NewsFeature():
         cursor.execute('SELECT * FROM articles WHERE id = ?', (row_number,))
 
         row = cursor.fetchone()
+        conn.close()
+        return row
+    
+    def get_row_by_number_temp(row_number):
+        conn=sqlite3.connect('temporary_news.db')
+        cursor=conn.cursor()
+        cursor.execute('SELECT * FROM articles WHERE id = ?', (row_number,))
+        row=cursor.fetchone()
         conn.close()
         return row
     

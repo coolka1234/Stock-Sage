@@ -7,7 +7,6 @@ import numpy as np
 import re
 from datetime import datetime, timedelta
 import sqlite3
-from LSTMmodel import preprocess_text
 from utility_functions import date_to_ISO_8601
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
@@ -16,7 +15,8 @@ from tensorflow.keras.layers import LSTM, Dense
 from datetime import date, datetime
 from NewsFeature import NewsFeature
 from StockAction import StockAction
-from database_create import create_temp_news_database, create_temp_stock_database
+from loadin_test import load_predict
+from database_create import create_temp_news_database, create_temp_stock_database, delete_temp_news_database, delete_temp_stock_database
 from fetch_and_store import fetch_and_store_articles, fetch_and_store_articles_to_temporary_db, get_articles_by_date
 from non_api_fetch_and_store_stocks import fetch_and_store_stock_data, fetch_and_store_stock_data_to_temporary_db, get_stock_data_by_date, print_stock_data
 import nltk
@@ -32,8 +32,8 @@ def np_news():
     cursor.execute(query)
     result = cursor.fetchone()
     row_count = result[0]
-    for i in range(1, row_count):
-        curr_news= NewsFeature(i)
+    for i in range(1, row_count+1):
+        curr_news= NewsFeature(i, Temp=True)
         news_array=np.append(news_array,curr_news)
     conn.close()
     return news_array
@@ -47,9 +47,10 @@ def np_stock():
     cursor.execute(query)
     result = cursor.fetchone()
     row_count = result[0]
-    for i in range(1, row_count):
-        curr_stock= StockAction(i)
+    for i in range(1, row_count+1):
+        curr_stock= StockAction(i, temp=True)
         stock_array=np.append(stock_array,curr_stock)
+        break
     conn.close()
     return stock_array
 
@@ -89,17 +90,24 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
         fetch_and_store_stock_data_to_temporary_db(symbol, symbol, period='1d')
         news=np_news()
         stock=np_stock()
-        news_vectorizer=TfidfVectorizer(max_features=500)
+        delete_temp_news_database()
+        delete_temp_stock_database()
         all_articles=[entry.content for entry in news]
-        for article in all_articles:
-            article = preprocess_text(article)
-        # all_articles = [' '.join(entry.content) for entry in news]
-        new_data_news=news_vectorizer.fit_transform(all_articles).toarray()
-        new_data_news=new_data_news.reshape(-1)
-        combined_features=np.hstack((new_data_news, stock[0].opening_price))
-        combined_features = np.expand_dims(combined_features, axis=1)
-        predicted_stock_price = self.model.predict(combined_features)
-        self.labelRaport.setText(f'Predicted stock price for {name} is {predicted_stock_price}')
+        string = ' '.join(all_articles)
+        self.progressBar.setValue(30)
+        numpy_string=np.array([string])
+        result=load_predict(numpy_string, stock[0].opening_price)
+        self.progressBar.setValue(100)
+        self.labelRaport.setText(f'Predicted stock price for {name} is {result}')
+        # for article in all_articles:
+        #     article = preprocess_text(article)
+        # # all_articles = [' '.join(entry.content) for entry in news]
+        # new_data_news=news_vectorizer.fit_transform(all_articles).toarray()
+        # new_data_news=new_data_news.reshape(-1)
+        # combined_features=np.hstack((new_data_news, stock[0].opening_price))
+        # combined_features = np.expand_dims(combined_features, axis=1)
+        # predicted_stock_price = self.model.predict(combined_features)
+        # self.labelRaport.setText(f'Predicted stock price for {name} is {predicted_stock_price}')
 
 
 
