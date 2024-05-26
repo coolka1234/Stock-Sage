@@ -59,3 +59,18 @@ def update_all_news():
                 cursor.execute('UPDATE articles SET companies = ? WHERE id = ?', (companies, row[0]))
         conn.commit()
     conn.close()
+def update_single_news(id):
+    conn = sqlite3.connect('news.db')
+    cursor = conn.cursor()
+    curr_news= NewsFeature.NewsFeature(id)
+    row = curr_news.row
+    url = curr_news.url
+    if('chars' in curr_news.content):
+        data = scrape_content(url)
+        update_single_news_row('content', data, url)
+    if(curr_news.companies == ''):
+        companies = ''.join(find_all(row[7], companies_of_interest()))
+        if(companies == ''):
+            cursor.execute('UPDATE articles SET companies = ? WHERE id = ?', (companies, row[0]))
+    conn.commit()
+    conn.close()

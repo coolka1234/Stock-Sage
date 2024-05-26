@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from re import S
+from turtle import up
 from NewsBriefing import Ui_MainMenuWindow
 from PyQt6.QtWidgets import (
     QApplication, QDialog, QMainWindow, QMessageBox, QFileDialog
@@ -10,6 +11,7 @@ from utility_functions import change_date_format, find_between
 from PyQt6.QtCore import QDateTime, QDate
 from SingleArticleWindow import SingleArticleWindow
 from NewsFeature import NewsFeature
+from update_api_scrape import update_single_news
 
 class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
     def __init__(self):
@@ -61,7 +63,9 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
     def open_news(self):
         clicked_item = self.listWidgetNews.currentItem().text()
         description = find_between(clicked_item, 'Description: ', '\nURL')
-        self.news= SingleArticleWindow(NewsFeature=NewsFeature(NewsFeature.get_id_by_description(description)))
+        id = NewsFeature.get_id_by_description(description)
+        update_single_news(id)  
+        self.news= SingleArticleWindow(NewsFeature=NewsFeature(id))
         self.news.show()
 
     def set_min_date(self):
