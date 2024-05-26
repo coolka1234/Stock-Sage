@@ -1,6 +1,10 @@
+import os
 import yfinance as yf
 import sqlite3
 import datetime
+import matplotlib.pyplot as plt
+import mplfinance as mpf
+import pandas as pd
 class StockAction():
     def __init__(self, row_number=1):
         self.row_number = row_number
@@ -22,6 +26,20 @@ class StockAction():
         row = cursor.fetchone()
         conn.close()
         return row
+    def graph_stock_data(symbol, period='1mo'):
+        ticker = yf.Ticker(symbol)
+        data = ticker.history(period=period)
+        data.index = pd.to_datetime(data.index)
+
+    # Create a new figure and plot the data
+        mpf.plot(data, type='candle', style='charles', title=symbol, volume=True)
+
+        if os.path.exists('plots/stock_data.png'):
+            os.remove('plots/stock_data.png')
+        if not os.path.exists('plots'):
+            os.makedirs('plots')
+        plt.savefig('plots/stock_data.png', bbox_inches='tight')
+        plt.close()
 
 if __name__=='__main__':
     stock_symbol = 'AAPL'

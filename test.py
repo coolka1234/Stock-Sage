@@ -23,7 +23,7 @@ def main():
     # fetch_and_store_stock_data('AAPL', 'Apple Inc.')
     # fetch_and_store_stock_data('GOOGL', 'Google Inc.')
     # update_all_news()
-    fetch_and_store_articles(keyword='Apple', from_date='2024-04-26T19:56:00', to_date='2024-05-25T00:00:00', language='en', sort_by='publishedAt')
+    # fetch_and_store_articles(keyword='Apple', from_date='2024-04-26T19:56:00', to_date='2024-05-25T00:00:00', language='en', sort_by='publishedAt')
 #     2024-04-26T19:56:00
 # 2024-05-25T00:00:00
 # Apple
