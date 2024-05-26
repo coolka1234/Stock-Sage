@@ -60,6 +60,25 @@ def create_stock_database():
     conn.commit()
     conn.close()
 
+def create_temp_stock_database():
+    conn = sqlite3.connect('temporary_stocks.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS stock_prices (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        company_name TEXT,
+        company_token TEXT,
+        date TEXT,
+        opening_price REAL,
+        closing_price REAL,
+        change REAL
+    )
+    ''')
+
+    conn.commit()
+    conn.close()
+
 def delete_news_database():
     conn = sqlite3.connect('news.db')
     cursor = conn.cursor()

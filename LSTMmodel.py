@@ -92,3 +92,8 @@ plt.ylabel('Stock Price')
 plt.title('Real vs Predicted Stock Prices')
 plt.legend()
 plt.show()
+import pickle
+with open('vectorizer.pkl', 'wb') as f:
+    pickle.dump(vectorizer, f)
+
+print('Model and vectorizer saved.')
