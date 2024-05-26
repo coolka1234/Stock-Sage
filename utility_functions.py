@@ -1,5 +1,6 @@
 import datetime
 import pandas as pd
+import yfinance as yf
 def date_to_ISO_8601(date):
     return date+'T00:00:00Z'
 
@@ -25,3 +26,6 @@ def find_between(s, first, last):
         return s[start:end]
     except ValueError:
         return ""
+def get_company_name(symbol):
+    ticker = yf.Ticker(symbol)
+    return ticker.info['longName']

@@ -7,7 +7,7 @@ import numpy as np
 import re
 from datetime import datetime, timedelta
 import sqlite3
-from utility_functions import date_to_ISO_8601
+from utility_functions import date_to_ISO_8601, get_company_name
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential, load_model
@@ -74,9 +74,14 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
         
     
     def display_prediction(self):
+        if self.lineEditSymbolnput.text() == '':
+            self.labelRaport.setText('Error: Please provide a symbol')
+            return
         create_temp_news_database()
         create_temp_stock_database()
         name = self.lineEditNameInput.text()
+        if name == '':
+            name=get_company_name(self.lineEditSymbolnput.text())
         symbol = self.lineEditSymbolnput.text()
         append_if_not_exists('companies_of_interest.csv', name)
         date_today=datetime.now()
@@ -86,8 +91,14 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
         # date_yesterday=date_to_ISO_8601(str(date_yesterday.date()))
         # date_today=date_to_ISO_8601(str(date_today.date()))
         self.progressBar.setValue(10)
-        fetch_and_store_articles_to_temporary_db(keyword=symbol, from_date=date_yesterday, to_date=date_today, language='en', sort_by='publishedAt')
-        fetch_and_store_stock_data_to_temporary_db(symbol, symbol, period='1d')
+        try:
+            fetch_and_store_articles_to_temporary_db(keyword=symbol, from_date=date_yesterday, to_date=date_today, language='en', sort_by='publishedAt')
+            fetch_and_store_stock_data_to_temporary_db(symbol, symbol, period='1d')
+        except Exception as e:
+            self.labelRaport.setText(f'Error: There was trouble fetching data. Please try again later or with diffrent symbol')
+            delete_temp_news_database()
+            delete_temp_stock_database()
+            return
         news=np_news()
         stock=np_stock()
         delete_temp_news_database()
@@ -96,18 +107,13 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
         string = ' '.join(all_articles)
         self.progressBar.setValue(30)
         numpy_string=np.array([string])
-        result=load_predict(numpy_string, stock[0].opening_price)
+        try:
+            result=load_predict(numpy_string, stock[0].opening_price)
+        except Exception as e:
+            self.labelRaport.setText(f'Error: There was trouble predicting the stock price. Please try again later or with diffrent symbol')
+            return
         self.progressBar.setValue(100)
-        self.labelRaport.setText(f'Predicted stock price for {name} is {result}')
-        # for article in all_articles:
-        #     article = preprocess_text(article)
-        # # all_articles = [' '.join(entry.content) for entry in news]
-        # new_data_news=news_vectorizer.fit_transform(all_articles).toarray()
-        # new_data_news=new_data_news.reshape(-1)
-        # combined_features=np.hstack((new_data_news, stock[0].opening_price))
-        # combined_features = np.expand_dims(combined_features, axis=1)
-        # predicted_stock_price = self.model.predict(combined_features)
-        # self.labelRaport.setText(f'Predicted stock price for {name} is {predicted_stock_price}')
+        self.labelRaport.setText(f'Predicted stock price for {name} is {result[0][0]}')
 
 
 
