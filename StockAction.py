@@ -38,6 +38,8 @@ class StockAction():
             period = '1mo'
         if symbol == '':
             return
+        if interval == '':
+            interval = '1d'
         plt.ioff()
         ticker = yf.Ticker(symbol)
         data = ticker.history(period=period, interval=interval)

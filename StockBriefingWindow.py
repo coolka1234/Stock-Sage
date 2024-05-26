@@ -20,7 +20,10 @@ class StockBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         if (Period == ' '):
             Period = '1mo'
         # stock = StockAction(symbol)
-        StockAction.graph_stock_data(symbol, Period, interval=interval)
+        try:
+            StockAction.graph_stock_data(symbol, Period, interval=interval)
+        except Exception as e:
+            self.labelSypckGraph.setText(f'Error: There was trouble fetching data. Please try again later or with diffrent symbol')
         pixmap=QPixmap('plots/stock_data.png')
         self.labelSypckGraph.setPixmap(pixmap)
     

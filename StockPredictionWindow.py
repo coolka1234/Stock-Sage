@@ -74,6 +74,7 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
         
     
     def display_prediction(self):
+        self.progressBar.setValue(0)
         if self.lineEditSymbolnput.text() == '':
             self.labelRaport.setText('Error: Please provide a symbol')
             return
@@ -114,6 +115,7 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
             return
         self.progressBar.setValue(100)
         self.labelRaport.setText(f'Predicted stock price for {name} is {result[0][0]}')
+        
 
 
 

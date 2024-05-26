@@ -44,7 +44,7 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         if self.comboBox.currentText() is None or self.comboBox.currentText() == '':
             language_sel='en'
         else:
-            language=self.comboBox.currentText()
+            language_sel=self.comboBox.currentText()
         if self.comboBox_2.currentText() is None or self.comboBox_2.currentText() == '':
             sort_by_sel='publishedAt'
         else:
