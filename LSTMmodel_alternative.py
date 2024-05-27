@@ -41,17 +41,17 @@ text_features = vectorizer.fit_transform(all_articles).toarray()
 
 features = []
 targets = []
-weight_factor = 1000 
+weight_factor = 1000 # zwracaj szczegolna uwage na otwarcie!!!!!!
 for i, entry in enumerate(combined_data):
     # open_price = entry['open_price']
     # combined_features = np.hstack((text_features[i], [open_price]))
     # features.append(combined_features)
     # targets.append(entry['close_price'])  
     open_price = entry['open_price']
-    weighted_open_price = np.full((weight_factor,), open_price)  # Duplicate the open price
-    combined_features = np.hstack((text_features[i], weighted_open_price))  # Add weighted open price
+    weighted_open_price = np.full((weight_factor,), open_price)
+    combined_features = np.hstack((text_features[i], weighted_open_price)) 
     features.append(combined_features)
-    targets.append(entry['close_price'])  # Use close_price as the target
+    targets.append(entry['close_price'])
     
 
 features = np.array(features)
@@ -69,7 +69,7 @@ X_test = np.expand_dims(X_test, axis=1)
 
 model = Sequential()
 model.add(LSTM(50, return_sequences=True, input_shape=(X_train.shape[1], X_train.shape[2])))
-model.add(LSTM(50))
+model.add(LSTM(50)) # zwraca output na kazdym kroku
 model.add(Dense(1))  
 
 model.compile(optimizer='adam', loss='mean_squared_error')
