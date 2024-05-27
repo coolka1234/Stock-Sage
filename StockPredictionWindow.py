@@ -63,14 +63,24 @@ def append_if_not_exists(file_path, data):
         writer = csv.writer(file)
         writer.writerow(data)
     
+def generate_raport(stock, prediction, name):
+    raport=f'Predicted stock price for {name} is {prediction} \n '
+    raport+= f'Current stock price is {stock} \n'
+    if prediction>stock:
+        raport+='Recommendation: <font color="green">Buy!</font>'
+    else:
+        raport+='Recommendation: <font color="red">Sell!</font>'
+    return raport
 
 class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
-    def __init__(self):
+    def __init__(self, main_menu_window):
         super().__init__()
         self.setupUi(self)
         self.show()
         self.model=load_model('stock_prediction_model.h5')
         self.pushButtonExecute.clicked.connect(self.display_prediction)
+        self.main_window = main_menu_window
+        self.main_window.pushButtonStockPrediction.setDisabled(True)
         
     
     def display_prediction(self):
@@ -80,9 +90,11 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
             return
         create_temp_news_database()
         create_temp_stock_database()
-        name = self.lineEditNameInput.text()
-        if name == '':
+        try:
             name=get_company_name(self.lineEditSymbolnput.text())
+        except:
+            self.labelRaport.setText('Error: Please provide a valid symbol')
+            return
         symbol = self.lineEditSymbolnput.text()
         append_if_not_exists('companies_of_interest.csv', name)
         date_today=datetime.now()
@@ -114,9 +126,21 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
             self.labelRaport.setText(f'Error: There was trouble predicting the stock price. Please try again later or with diffrent symbol')
             return
         self.progressBar.setValue(100)
-        self.labelRaport.setText(f'Predicted stock price for {name} is {result[0][0]}')
+        # self.labelRaport.setText(generate_raport(stock[0].opening_price, result[0][0], name))
+        raport=f'<html>Predicted stock price for {name} is {result[0][0]}$ <br> \n'
+        raport+= f'Current stock price is {stock[0].opening_price}$ <br> \n'
+        if result[0][0]>stock[0].opening_price:
+            raport+='Recommendation: <font color="green">Buy!</font></html>'
+        else:
+            raport+='Recommendation: <font color="red">Sell!</font></html>'
+        self.labelRaport.setText(raport)
+        QApplication.processEvents()
         
-
+    def closeEvent(self, event):
+        if self.main_window is not None:
+            self.main_window.pushButtonStockPrediction.setDisabled(False)
+            self.main_window.w1 = None
+        # event.accept()
 
 
 if __name__ == '__main__':

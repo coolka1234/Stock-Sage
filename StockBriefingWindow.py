@@ -5,12 +5,14 @@ from pandas import Period
 from StockBriefing import Ui_MainMenuWindow
 from StockAction import StockAction
 class StockBriefingWindow(QMainWindow, Ui_MainMenuWindow):
-    def __init__(self):
+    def __init__(self, mainWindow=None):
         super().__init__()
         self.setupUi(self)
         self.show()
         self.fillComboBoxes()
         self.pushButtonExecute.clicked.connect(self.display_stock_data)
+        self.mainwindow = mainWindow
+        self.mainwindow.pushButtonStockBriefing.setEnabled(False)
     def display_stock_data(self):
         symbol = self.lineEditSymbolnput.text()
         Period = self.comboBox.currentText()
@@ -32,6 +34,11 @@ class StockBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         self.comboBox.addItems(periods)
         intervals = ['1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo']
         self.comboBox_2.addItems(intervals)
+    
+    def closeEvent(self, event):
+        if self.mainwindow is not None:
+            self.mainwindow.w2 = None
+            self.mainwindow.pushButtonStockBriefing.setEnabled(True)
 
 if __name__ == '__main__':
     import sys

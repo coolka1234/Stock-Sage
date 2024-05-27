@@ -15,7 +15,8 @@ def companies_of_interest():
     with open('companies_of_interest.csv', newline='') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
-            companies.append(row[0])
+            if len(row) > 0:
+                companies.append(row[0])
     return companies
 
 def contains_any(string, string_list):

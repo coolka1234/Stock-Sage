@@ -14,7 +14,7 @@ from NewsFeature import NewsFeature
 from update_api_scrape import update_single_news
 
 class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
-    def __init__(self):
+    def __init__(self, main_window):
         super().__init__()
         self.setupUi(self)
         self.show()
@@ -23,6 +23,8 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         self.set_max_date()
         self.pushButtonExecute.clicked.connect(self.fillNewsList)
         self.listWidgetNews.itemDoubleClicked.connect(self.open_news)
+        self.main_window = main_window
+        self.main_window.pushButtonNewsBriefing.setEnabled(False)
     def openNewWindow(self):
         self.hide()
         self.newWindow = QMainWindow()
@@ -39,6 +41,12 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         self.listWidgetNews.clear()
         date_from = str(self.dateTimeEditFrom.text())
         date_to = str(self.dateTimeEditTo.text())
+        if date_from == '' or date_to == '':
+            QMessageBox.critical(self, 'Error', 'Please select both dates')
+            return
+        if self.dateTimeEditFrom.date() >= self.dateTimeEditTo.date():
+            QMessageBox.critical(self, 'Error', 'From date cannot be greater than to date')
+            return
         date_from = change_date_format(date_from)
         date_to = change_date_format(date_to)
         if self.comboBox.currentText() is None or self.comboBox.currentText() == '':
@@ -73,11 +81,17 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
 
         min_date = current_date.addDays(-29)
         self.dateTimeEditFrom.setMinimumDateTime(min_date)
+        self.dateTimeEditTo.setMinimumDateTime(min_date)
     
     def set_max_date(self):
         current_date = QDateTime.currentDateTime()
         self.dateTimeEditTo.setDate(current_date.date())
         self.dateTimeEditTo.setMaximumDateTime(current_date)
+    
+    def closeEvent(self, event):
+        if self.main_window is not None:
+            self.main_window.w = None
+            self.main_window.pushButtonNewsBriefing.setEnabled(True)
     
     
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ class MainMenuWindow(QMainWindow, Ui_MainMenuWindow):
         self.pushButtonStockBriefing.clicked.connect(self.openNewWindowStockBriefing)
     def openNewWindow(self):
         if self.w is None:
-            self.w = NewsBriefingWindow()
+            self.w = NewsBriefingWindow(self)
             self.w.show()
         else:
             self.w.close()  # Close window.
@@ -26,17 +26,19 @@ class MainMenuWindow(QMainWindow, Ui_MainMenuWindow):
     
     def openNewWindowStockPrediction(self):
         if self.w1 is None:
-            self.w1 = StockPredictionWindow()
+            self.w1 = StockPredictionWindow(self)
             self.w1.show()
         else:
             self.w1.close()
+            self.w1 = None
     
     def openNewWindowStockBriefing(self):
         if self.w2 is None:
-            self.w2 = StockBriefingWindow()
+            self.w2 = StockBriefingWindow(self)
             self.w2.show()
         else:
             self.w2.close()
+            self.w2 = None
     
 if __name__ == "__main__":
     app = QApplication([])
