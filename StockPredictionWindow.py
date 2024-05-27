@@ -11,7 +11,7 @@ from utility_functions import date_to_ISO_8601, get_company_name
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import LSTM, Dense
+from random import randint
 from datetime import date, datetime
 from NewsFeature import NewsFeature
 from StockAction import StockAction
@@ -64,12 +64,12 @@ def append_if_not_exists(file_path, data):
         writer.writerow(data)
     
 def generate_raport(stock, prediction, name):
-    raport=f'Predicted stock price for {name} is {prediction} \n '
-    raport+= f'Current stock price is {stock} \n'
+    raport=f'<html>Predicted stock price for {name} is {prediction}$ <br> \n'
+    raport+= f'Current stock price is {stock}$ <br> \n'
     if prediction>stock:
-        raport+='Recommendation: <font color="green">Buy!</font>'
+        raport+='Recommendation: <font color="green">Buy!</font></html>'
     else:
-        raport+='Recommendation: <font color="red">Sell!</font>'
+        raport+='Recommendation: <font color="red">Sell!</font></html>'
     return raport
 
 class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
@@ -103,7 +103,7 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
         date_yesterday=str(date_yesterday.date())
         # date_yesterday=date_to_ISO_8601(str(date_yesterday.date()))
         # date_today=date_to_ISO_8601(str(date_today.date()))
-        self.progressBar.setValue(10)
+        self.progressBar.setValue(10+randint(1, 6))
         try:
             fetch_and_store_articles_to_temporary_db(keyword=symbol, from_date=date_yesterday, to_date=date_today, language='en', sort_by='publishedAt')
             fetch_and_store_stock_data_to_temporary_db(symbol, symbol, period='1d')
@@ -114,11 +114,12 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
             return
         news=np_news()
         stock=np_stock()
+
         delete_temp_news_database()
         delete_temp_stock_database()
         all_articles=[entry.content for entry in news]
         string = ' '.join(all_articles)
-        self.progressBar.setValue(30)
+        self.progressBar.setValue(30+randint(1, 6))
         numpy_string=np.array([string])
         try:
             result=load_predict(numpy_string, stock[0].opening_price)
@@ -126,14 +127,7 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
             self.labelRaport.setText(f'Error: There was trouble predicting the stock price. Please try again later or with diffrent symbol')
             return
         self.progressBar.setValue(100)
-        # self.labelRaport.setText(generate_raport(stock[0].opening_price, result[0][0], name))
-        raport=f'<html>Predicted stock price for {name} is {result[0][0]}$ <br> \n'
-        raport+= f'Current stock price is {stock[0].opening_price}$ <br> \n'
-        if result[0][0]>stock[0].opening_price:
-            raport+='Recommendation: <font color="green">Buy!</font></html>'
-        else:
-            raport+='Recommendation: <font color="red">Sell!</font></html>'
-        self.labelRaport.setText(raport)
+        self.labelRaport.setText(generate_raport(stock[0].opening_price, result[0][0], name))
         QApplication.processEvents()
         
     def closeEvent(self, event):
@@ -141,6 +135,10 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
             self.main_window.pushButtonStockPrediction.setDisabled(False)
             self.main_window.w1 = None
         # event.accept()
+    def clear(self):
+        self.labelRaport.setText('')
+        self.lineEditSymbolnput.setText('')
+        self.progressBar.setValue(0)
 
 
 if __name__ == '__main__':
