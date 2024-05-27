@@ -22,11 +22,12 @@ class Ui_MainMenuWindow(object):
         MainMenuWindow.setMaximumSize(QtCore.QSize(1060, 700))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../stock_sage_icon_v2.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("stock_sage_icon_v2.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.On)
         MainMenuWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(parent=MainMenuWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.labelTitle = QtWidgets.QLabel(parent=self.centralwidget)
-        self.labelTitle.setGeometry(QtCore.QRect(50, 30, 211, 71))
+        self.labelTitle.setGeometry(QtCore.QRect(50, 30, 211, 51))
         font = QtGui.QFont()
         font.setFamily("Verdana Pro Cond Semibold")
         font.setPointSize(22)
@@ -73,7 +74,7 @@ class Ui_MainMenuWindow(object):
         self.pushButtonClear.setObjectName("pushButtonClear")
         self.horizontalLayout.addWidget(self.pushButtonClear)
         self.labelRaport = QtWidgets.QLabel(parent=self.centralwidget)
-        self.labelRaport.setGeometry(QtCore.QRect(50, 120, 631, 545))
+        self.labelRaport.setGeometry(QtCore.QRect(10, 94, 671, 571))
         font = QtGui.QFont()
         font.setFamily("Yu Gothic UI Semibold")
         font.setPointSize(20)
@@ -93,7 +94,7 @@ class Ui_MainMenuWindow(object):
 
     def retranslateUi(self, MainMenuWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainMenuWindow.setWindowTitle(_translate("MainMenuWindow", "News Briefing - Stock Sage"))
+        MainMenuWindow.setWindowTitle(_translate("MainMenuWindow", "Stock Prediction - Stock Sage"))
         self.labelTitle.setText(_translate("MainMenuWindow", "Stock Prediciton"))
         self.labelCompanyName.setText(_translate("MainMenuWindow", "Company Symbol:"))
         self.lineEditSymbolnput.setPlaceholderText(_translate("MainMenuWindow", "Input symbol..."))

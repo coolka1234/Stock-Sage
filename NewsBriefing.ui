@@ -33,7 +33,8 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../stock_sage_icon_v2.png</normaloff>../stock_sage_icon_v2.png</iconset>
+    <normaloff>../stock_sage_icon_v2.png</normaloff>
+    <normalon>stock_sage_icon_v2.png</normalon>../stock_sage_icon_v2.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="labelTitle">
@@ -234,7 +235,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>640</x>

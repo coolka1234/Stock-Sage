@@ -22,11 +22,12 @@ class Ui_MainMenuWindow(object):
         MainMenuWindow.setMaximumSize(QtCore.QSize(1060, 700))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../stock_sage_icon_v2.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("stock_sage_icon_v2.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.On)
         MainMenuWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(parent=MainMenuWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.labelTitle = QtWidgets.QLabel(parent=self.centralwidget)
-        self.labelTitle.setGeometry(QtCore.QRect(30, 30, 211, 71))
+        self.labelTitle.setGeometry(QtCore.QRect(50, 30, 211, 71))
         font = QtGui.QFont()
         font.setFamily("Verdana Pro Cond Semibold")
         font.setPointSize(22)
@@ -105,7 +106,8 @@ class Ui_MainMenuWindow(object):
         self.pushButtonClear.setObjectName("pushButtonClear")
         self.horizontalLayout.addWidget(self.pushButtonClear)
         self.labelSypckGraph = QtWidgets.QLabel(parent=self.centralwidget)
-        self.labelSypckGraph.setGeometry(QtCore.QRect(50, 120, 657, 545))
+        self.labelSypckGraph.setGeometry(QtCore.QRect(10, 100, 731, 581))
+        self.labelSypckGraph.setText("")
         self.labelSypckGraph.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.labelSypckGraph.setObjectName("labelSypckGraph")
         MainMenuWindow.setCentralWidget(self.centralwidget)
@@ -118,7 +120,7 @@ class Ui_MainMenuWindow(object):
 
     def retranslateUi(self, MainMenuWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainMenuWindow.setWindowTitle(_translate("MainMenuWindow", "News Briefing - Stock Sage"))
+        MainMenuWindow.setWindowTitle(_translate("MainMenuWindow", "Stock Briefing - Stock Sage"))
         self.labelTitle.setText(_translate("MainMenuWindow", "Stock Briefing"))
         self.labelCompanyName.setText(_translate("MainMenuWindow", "Company Symbol:"))
         self.lineEditSymbolnput.setPlaceholderText(_translate("MainMenuWindow", "Input symbol..."))
@@ -127,10 +129,9 @@ class Ui_MainMenuWindow(object):
         self.labelTitleLanguage_2.setText(_translate("MainMenuWindow", "Interval:"))
         self.comboBox_2.setPlaceholderText(_translate("MainMenuWindow", "Select interval..."))
         self.pushButtonExecute.setToolTip(_translate("MainMenuWindow", "Search with given criteria"))
-        self.pushButtonExecute.setText(_translate("MainMenuWindow", "Search"))
+        self.pushButtonExecute.setText(_translate("MainMenuWindow", "Display"))
         self.pushButtonClear.setToolTip(_translate("MainMenuWindow", "Clear search results"))
         self.pushButtonClear.setText(_translate("MainMenuWindow", "Clear"))
-        self.labelSypckGraph.setText(_translate("MainMenuWindow", "Graph"))
 
 
 if __name__ == "__main__":

@@ -25,6 +25,7 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         self.listWidgetNews.itemDoubleClicked.connect(self.open_news)
         self.main_window = main_window
         self.main_window.pushButtonNewsBriefing.setEnabled(False)
+        self.pushButtonClear.clicked.connect(self.clear)
     def openNewWindow(self):
         self.hide()
         self.newWindow = QMainWindow()
@@ -92,6 +93,12 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         if self.main_window is not None:
             self.main_window.w = None
             self.main_window.pushButtonNewsBriefing.setEnabled(True)
+    
+    def clear(self):
+        self.lineEditKeywoardInput.clear()
+        self.listWidgetNews.clear()
+        self.dateTimeEditFrom.setDate(QDate.currentDate())
+        self.dateTimeEditTo.setDate(QDate.currentDate())
     
     
 if __name__ == "__main__":
