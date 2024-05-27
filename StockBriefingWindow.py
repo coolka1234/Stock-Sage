@@ -4,6 +4,7 @@ from PyQt6.QtGui import QPixmap
 from pandas import Period
 from StockBriefing import Ui_MainMenuWindow
 from StockAction import StockAction
+import os
 class StockBriefingWindow(QMainWindow, Ui_MainMenuWindow):
     def __init__(self, mainWindow=None):
         super().__init__()
@@ -15,6 +16,8 @@ class StockBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         self.mainwindow.pushButtonStockBriefing.setEnabled(False)
         self.pushButtonClear.clicked.connect(self.clear)
     def display_stock_data(self):
+        if os.path.exists('plots/stock_data.png'):
+            os.remove('plots/stock_data.png')
         symbol = self.lineEditSymbolnput.text()
         period = self.comboBox.currentText()
         interval=self.comboBox_2.currentText()
@@ -28,9 +31,10 @@ class StockBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         # stock = StockAction(symbol)
         try:
             StockAction.graph_stock_data(symbol, period, interval=interval)
+            pixmap=QPixmap('plots/stock_data.png')
         except Exception as e:
             self.labelSypckGraph.setText(f'Error: There was trouble fetching data. Please try again later or with diffrent symbol')
-        pixmap=QPixmap('plots/stock_data.png')
+            return
         self.labelSypckGraph.setPixmap(pixmap)
     
     def fillComboBoxes(self):

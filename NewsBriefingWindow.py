@@ -48,6 +48,9 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         if self.dateTimeEditFrom.date() >= self.dateTimeEditTo.date():
             QMessageBox.critical(self, 'Error', 'From date cannot be greater than to date')
             return
+        if self.lineEditKeywoardInput.text() == '':
+            QMessageBox.critical(self, 'Error', 'Please provide a keyword')
+            return
         date_from = change_date_format(date_from)
         date_to = change_date_format(date_to)
         if self.comboBox.currentText() is None or self.comboBox.currentText() == '':
@@ -97,8 +100,8 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
     def clear(self):
         self.lineEditKeywoardInput.clear()
         self.listWidgetNews.clear()
-        self.dateTimeEditFrom.setDate(QDate.currentDate())
-        self.dateTimeEditTo.setDate(QDate.currentDate())
+        self.set_min_date()
+        self.set_max_date()
     
     
 if __name__ == "__main__":
