@@ -62,7 +62,7 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         else:
             sort_by_sel=self.comboBox_2.currentText()
         articles_dict= fetch_and_store_articles(keyword=self.lineEditKeywoardInput.text(), from_date=date_from, to_date=date_to, language=language_sel, sort_by=sort_by_sel)
-        self.listWidgetNews.addItem(f"Total results: {articles_dict['totalResults']}")
+        # self.listWidgetNews.addItem(f"Total results: {articles_dict['totalResults']}")
         for article in articles_dict['articles']:
             item = f"Title: {article['title']}\n" \
                    f"Description: {article['description']}\n" \

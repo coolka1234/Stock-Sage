@@ -1,7 +1,8 @@
 import yfinance as yf
 import sqlite3
-
+from database_create import create_stock_database
 def fetch_and_store_stock_data(symbol, company_name, period='1mo'):
+    create_stock_database()
     stock = yf.Ticker(symbol)
     hist = stock.history(period=period)  # Fetches the last month of data
 

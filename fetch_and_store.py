@@ -1,11 +1,12 @@
 from newsapi import NewsApiClient
 from api_codes import news_api
-from database_create import create_temp_news_database
+from database_create import create_temp_news_database, create_news_database
 import sqlite3
 
 newsapi = NewsApiClient(api_key=news_api)
 
 def fetch_and_store_articles(keyword=None, from_date=None, to_date=None, language='en-US', sort_by='publishedAt'):
+    create_news_database()
     articles = newsapi.get_everything(q=keyword, from_param=from_date, to=to_date, language=language, sort_by=sort_by)
     print(articles)
     store_articles_in_db(articles['articles'])
