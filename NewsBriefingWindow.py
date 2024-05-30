@@ -12,20 +12,26 @@ from PyQt6.QtCore import QDateTime, QDate
 from SingleArticleWindow import SingleArticleWindow
 from NewsFeature import NewsFeature
 from update_api_scrape import update_single_news
+import logging
 
 class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
     def __init__(self, main_window):
+        logging.basicConfig( level=logging.DEBUG, filename='logs.log', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
         super().__init__()
         self.setupUi(self)
         self.show()
         self.fillComboBoxes()
         self.set_min_date()
         self.set_max_date()
-        self.pushButtonExecute.clicked.connect(self.fillNewsList)
-        self.listWidgetNews.itemDoubleClicked.connect(self.open_news)
-        self.main_window = main_window
-        self.main_window.pushButtonNewsBriefing.setEnabled(False)
-        self.pushButtonClear.clicked.connect(self.clear)
+        try:
+            self.pushButtonExecute.clicked.connect(self.fillNewsList)
+            self.listWidgetNews.itemDoubleClicked.connect(self.open_news)
+            self.main_window = main_window
+            self.main_window.pushButtonNewsBriefing.setEnabled(False)
+            self.pushButtonClear.clicked.connect(self.clear)
+        except Exception as e:
+            logging.error(f'Error: {e}')
+            
     def openNewWindow(self):
         self.hide()
         self.newWindow = QMainWindow()
@@ -61,7 +67,12 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
             sort_by_sel='publishedAt'
         else:
             sort_by_sel=self.comboBox_2.currentText()
-        articles_dict= fetch_and_store_articles(keyword=self.lineEditKeywoardInput.text(), from_date=date_from, to_date=date_to, language=language_sel, sort_by=sort_by_sel)
+        try:
+            articles_dict= fetch_and_store_articles(keyword=self.lineEditKeywoardInput.text(), from_date=date_from, to_date=date_to, language=language_sel, sort_by=sort_by_sel)
+        except Exception as e:
+            logging.error(f'Error: {e}')
+            QMessageBox.critical(self, 'Error', 'There was a problem fetching the data. Please try again later')
+            return
         # self.listWidgetNews.addItem(f"Total results: {articles_dict['totalResults']}")
         for article in articles_dict['articles']:
             item = f"Title: {article['title']}\n" \

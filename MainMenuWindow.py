@@ -5,8 +5,10 @@ from PyQt6.QtWidgets import (
 )
 from StockPredictionWindow import StockPredictionWindow
 from StockBriefingWindow import StockBriefingWindow
+import logging
 class MainMenuWindow(QMainWindow, Ui_MainMenuWindow):
     def __init__(self):
+        
         super().__init__()
         self.setupUi(self)
         self.show()

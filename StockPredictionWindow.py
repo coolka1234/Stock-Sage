@@ -1,4 +1,5 @@
 import csv
+from math import log
 from PyQt6.QtWidgets import QMainWindow, QGridLayout, QLabel, QPushButton, QComboBox, QTableWidget, QTableWidgetItem, QApplication
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
@@ -7,6 +8,7 @@ import numpy as np
 import re
 from datetime import datetime, timedelta
 import sqlite3
+import logging
 from utility_functions import date_to_ISO_8601, get_company_name
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
@@ -74,10 +76,14 @@ def generate_raport(stock, prediction, name):
 
 class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
     def __init__(self, main_menu_window):
+        logging.basicConfig(level=logging.INFO, filename='logs.log', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
         super().__init__()
         self.setupUi(self)
         self.show()
-        self.model=load_model('stock_prediction_model.h5')
+        try:
+            self.model=load_model('stock_prediction_model.h5')
+        except Exception as e:
+            logging.error(f'Error: {e}')
         self.pushButtonExecute.clicked.connect(self.display_prediction)
         self.main_window = main_menu_window
         self.main_window.pushButtonStockPrediction.setDisabled(True)
@@ -108,6 +114,7 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
             fetch_and_store_articles_to_temporary_db(keyword=symbol, from_date=date_yesterday, to_date=date_today, language='en', sort_by='publishedAt')
             fetch_and_store_stock_data_to_temporary_db(symbol, symbol, period='1d')
         except Exception as e:
+            logging.error(f'Error: {e}')
             self.labelRaport.setText(f'Error: There was trouble fetching data. Please try again later or with diffrent symbol')
             delete_temp_news_database()
             delete_temp_stock_database()
