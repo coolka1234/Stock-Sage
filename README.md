@@ -5,3 +5,7 @@ Stock helper and neural network to analyze prices of stock trades in accordance 
 * Read news scraped without any ads or java script
 * See up to-date stocks on graph, analyze them at your will
 * LSTM model to predict stock price based on **current value** and **news**!
+<br>
+PSA:
+Model is already built, and because data size was around ~ 0.5 Gb, it has been removed, and thus training the model will not work.
+Model is saved to .h5 file.
