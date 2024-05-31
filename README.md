@@ -7,5 +7,5 @@ Stock helper and neural network to analyze prices of stock trades in accordance 
 * LSTM model to predict stock price based on **current value** and **news**!
 <br>
 PSA:
-Model is already built, and because data size was around ~ 0.5 Gb, it has been removed, and thus training the model will not work.
+Model is already built, and because data size was around ~ 0.5 GB, it has been removed, and thus training the model will not work.
 Model is saved to .h5 file.
