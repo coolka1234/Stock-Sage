@@ -1,5 +1,6 @@
 import csv
 from math import log
+import os
 from PyQt6.QtWidgets import QMainWindow, QGridLayout, QLabel, QPushButton, QComboBox, QTableWidget, QTableWidgetItem, QApplication
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
@@ -9,6 +10,7 @@ import re
 from datetime import datetime, timedelta
 import sqlite3
 import logging
+from utility_functions import resource_path_gp
 from utility_functions import date_to_ISO_8601, get_company_name
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
@@ -80,16 +82,14 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
         super().__init__()
         self.setupUi(self)
         self.show()
-        try:
-            self.model=load_model('stock_prediction_model.h5')
-        except Exception as e:
-            logging.error(f'Error: {e}')
+        self.model=load_model(resource_path_gp('stock_prediction_model.h5'))
         self.pushButtonExecute.clicked.connect(self.display_prediction)
         self.main_window = main_menu_window
         self.main_window.pushButtonStockPrediction.setDisabled(True)
         
     
     def display_prediction(self):
+        logging.info('Stock prediction started')
         self.progressBar.setValue(0)
         if self.lineEditSymbolnput.text() == '':
             self.labelRaport.setText('Error: Please provide a symbol')
@@ -102,7 +102,14 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
             self.labelRaport.setText('Error: Please provide a valid symbol')
             return
         symbol = self.lineEditSymbolnput.text()
-        append_if_not_exists('companies_of_interest.csv', name)
+        try:
+            append_if_not_exists(resource_path_gp('companies_of_interest.csv'), name)
+        except Exception as e:
+            logging.error(f'Error: {e}')
+            self.labelRaport.setText('Error: There was trouble fetching data. Please try again later or with diffrent symbol')
+            delete_temp_news_database()
+            delete_temp_stock_database()
+            return
         date_today=datetime.now()
         date_yesterday=date_today-timedelta(days=1)
         date_today=str(date_today.date())
@@ -131,6 +138,9 @@ class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
         try:
             result=load_predict(numpy_string, stock[0].opening_price)
         except Exception as e:
+            logging.error('errror 141')
+            logging.error(f'Error: {e}')
+            logging.error(f'Stack trace: {e.with_traceback()}')
             self.labelRaport.setText(f'Error: There was trouble predicting the stock price. Please try again later or with diffrent symbol')
             return
         self.progressBar.setValue(100)

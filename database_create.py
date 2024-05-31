@@ -14,6 +14,7 @@ def create_news_database():
         url TEXT,
         published_at TEXT,
         content TEXT
+        companies TEXT
     )
     ''')
 

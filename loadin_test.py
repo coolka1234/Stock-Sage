@@ -8,6 +8,8 @@ from sklearn.preprocessing import MinMaxScaler
 import pickle
 import re
 import matplotlib.pyplot as plt
+from utility_functions import resource_path_gp
+import logging
 
 # Preprocess text function
 def preprocess_text(text):
@@ -17,15 +19,26 @@ def preprocess_text(text):
     text = text.lower()
     return text
 def load_predict(news_array, stock_array):
-    model = load_model('stock_prediction_model.h5')
-
-    with open('vectorizer.pkl', 'rb') as f:
-        vectorizer = pickle.load(f)
-    with open('feature_scaler.pkl', 'rb') as f:
-        feature_scaler = pickle.load(f)
-    with open('target_scaler.pkl', 'rb') as f:
-        target_scaler = pickle.load(f)
-
+    logging.basicConfig( level=logging.DEBUG, filename='logs.log', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    logging.debug('Loading model')
+    model = load_model(resource_path_gp('stock_prediction_model.h5'))
+    logging.debug('Model loaded')
+    logging.debug('Loading model and scalers')
+    try:
+        vec_path = resource_path_gp('vectorizer.pkl')
+        with open(vec_path, 'rb') as f:
+            vectorizer = pickle.load(f)
+        feature_scaler_path = resource_path_gp('feature_scaler.pkl')
+        with open(feature_scaler_path, 'rb') as f:
+            feature_scaler = pickle.load(f)
+        target_scaler_path = resource_path_gp('target_scaler.pkl')
+        with open(target_scaler_path, 'rb') as f:
+            target_scaler = pickle.load(f)
+    except Exception as e:
+        logging.error(f'Error: {e}')
+        logging.error('Error: Could not load the model and scalers')
+        return
+    logging.debug('Model and scalers loaded')
     new_articles = news_array.tolist()
     new_open_prices = [stock_array]
     new_articles = [preprocess_text(article) for article in new_articles]
