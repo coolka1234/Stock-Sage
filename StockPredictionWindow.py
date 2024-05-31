@@ -14,7 +14,7 @@ from utility_functions import resource_path_gp
 from utility_functions import date_to_ISO_8601, get_company_name
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.models import Sequential, load_model # type: ignore (this has to be here, its a known keras bug)
 from random import randint
 from datetime import date, datetime
 from NewsFeature import NewsFeature

@@ -3,7 +3,7 @@
 from hmac import new
 from turtle import st
 import numpy as np
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model # type: ignore (this has to be here, its a known keras bug)
 from sklearn.preprocessing import MinMaxScaler
 import pickle
 import re

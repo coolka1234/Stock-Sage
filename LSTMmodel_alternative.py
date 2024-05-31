@@ -3,8 +3,8 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense
+from tensorflow.keras.models import Sequential # type: ignore (this has to be here, its a known keras bug)
+from tensorflow.keras.layers import LSTM, Dense # type: ignore
 from datetime import datetime
 import pandas as pd
 import pickle
