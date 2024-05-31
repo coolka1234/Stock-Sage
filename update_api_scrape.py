@@ -3,6 +3,7 @@ import NewsFeature
 import csv
 from bs4 import BeautifulSoup
 import requests
+from utility_functions import resource_path_gp
 def update_single_news_row(name, data, index):
     conn = sqlite3.connect('news.db')
     cursor = conn.cursor()
@@ -12,7 +13,8 @@ def update_single_news_row(name, data, index):
 
 def companies_of_interest():
     companies = []
-    with open('companies_of_interest.csv', newline='') as csvfile:
+    coi_path= resource_path_gp('companies_of_interest.csv')
+    with open(coi_path, newline='') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             if len(row) > 0:

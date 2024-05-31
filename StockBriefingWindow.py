@@ -5,6 +5,7 @@ from pandas import Period
 from StockBriefing import Ui_MainMenuWindow
 from StockAction import StockAction
 import os
+import shutil
 class StockBriefingWindow(QMainWindow, Ui_MainMenuWindow):
     def __init__(self, mainWindow=None):
         super().__init__()
@@ -36,6 +37,8 @@ class StockBriefingWindow(QMainWindow, Ui_MainMenuWindow):
             self.labelSypckGraph.setText(f'Error: There was trouble fetching data. Please try again later or with diffrent symbol')
             return
         self.labelSypckGraph.setPixmap(pixmap)
+        if os.path.exists('plots'):
+            shutil.rmtree('plots')
     
     def fillComboBoxes(self):
         periods = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']

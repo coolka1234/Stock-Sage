@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (
     QApplication, QDialog, QMainWindow, QMessageBox, QFileDialog
 )
 from PyQt6.QtCore import QDateTime, QDate
+from database_create import delete_news_database
 from fetch_and_store import fetch_and_store_articles, get_articles_by_date
 from utility_functions import change_date_format, find_between
 from PyQt6.QtCore import QDateTime, QDate
@@ -107,6 +108,7 @@ class NewsBriefingWindow(QMainWindow, Ui_MainMenuWindow):
         if self.main_window is not None:
             self.main_window.w = None
             self.main_window.pushButtonNewsBriefing.setEnabled(True)
+        delete_news_database()
     
     def clear(self):
         self.lineEditKeywoardInput.clear()

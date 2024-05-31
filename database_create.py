@@ -3,7 +3,6 @@ import sqlite3
 def create_news_database():
     conn = sqlite3.connect('news.db')
     cursor = conn.cursor()
-
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS articles (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -13,7 +12,7 @@ def create_news_database():
         description TEXT,
         url TEXT,
         published_at TEXT,
-        content TEXT
+        content TEXT,
         companies TEXT
     )
     ''')
