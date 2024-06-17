@@ -11,5 +11,13 @@
             "program": "${file}",
             "console": "integratedTerminal"
         }
+    ],
+    "python.analysis.extraPaths": [
+        "./src/gui",
+        "./src/models",
+        "./src/database",
+        "./src/codes",
+        "/src/gui",
+
     ]
 }
