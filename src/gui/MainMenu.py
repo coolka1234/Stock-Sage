@@ -21,7 +21,7 @@ class Ui_MainMenuWindow(object):
         MainMenuWindow.setMinimumSize(QtCore.QSize(1000, 700))
         MainMenuWindow.setMaximumSize(QtCore.QSize(1000, 700))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("stock_sage_icon_v2.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("res/stock_sage_icon_v2.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         MainMenuWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(parent=MainMenuWindow)
         self.centralwidget.setObjectName("centralwidget")

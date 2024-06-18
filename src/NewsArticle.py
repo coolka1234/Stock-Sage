@@ -1,10 +1,7 @@
 import newspaper
-import nltk
-import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import re
-#from config import config
+
 class NewsArticle():
     def __init__(self, url):
         self.url = url

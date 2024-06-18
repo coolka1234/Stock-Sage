@@ -1,7 +1,5 @@
-from PyQt6.QtWidgets import QMainWindow, QGridLayout, QLabel, QPushButton, QComboBox, QTableWidget, QTableWidgetItem
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtGui import QPixmap
-from pandas import Period
 from src.gui.StockBriefing import Ui_MainMenuWindow
 from src.StockAction import StockAction
 import os

@@ -1,6 +1,5 @@
 import requests
 import sqlite3
-from datetime import datetime
 from src.codes.api_codes import alpha_api
 
 ALPHA_VANTAGE_API_KEY = alpha_api

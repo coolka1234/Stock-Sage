@@ -1,15 +1,9 @@
-from math import comb
-from tabnanny import verbose
-import yfinance as yf
-from newspaper import Article
-import pandas as pd
 import numpy as np
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential, load_model # type: ignore (this has to be here, its a known keras bug)
 from tensorflow.keras.layers import LSTM, Dense # type: ignore
-from datetime import datetime
 from src.database.create_data_structures import np_news, np_stock
 from src.database.NewsFeature import NewsFeature
 from src.StockAction import StockAction

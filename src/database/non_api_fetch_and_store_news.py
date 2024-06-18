@@ -1,6 +1,5 @@
-from newspaper import Article, Source
+from newspaper import Article
 import sqlite3
-from datetime import datetime
 from src.codes.config import config
 from src.database.non_api_create_news_database import create_news_database
 from newspaper import Article, build

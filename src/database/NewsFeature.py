@@ -1,5 +1,4 @@
 import sqlite3
-from collections import namedtuple
 import datetime
 class NewsFeature():
     def __init__(self, num_from_db=1, Temp=False):

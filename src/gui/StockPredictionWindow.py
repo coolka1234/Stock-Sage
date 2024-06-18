@@ -1,24 +1,21 @@
 import csv
-from PyQt6.QtWidgets import QMainWindow, QGridLayout, QLabel, QPushButton, QComboBox, QTableWidget, QTableWidgetItem, QApplication
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtWidgets import QMainWindow, QApplication
 from src.gui.StockPrediction import Ui_MainMenuWindow
 import numpy as np
 from datetime import datetime, timedelta
 import sqlite3
 import logging
 from src.utility_functions import resource_path_gp
-from src.utility_functions import date_to_ISO_8601, get_company_name
-from sklearn.feature_extraction.text import TfidfVectorizer
+from src.utility_functions import get_company_name
 from tensorflow.keras.models import Sequential, load_model # type: ignore (this has to be here, its a known keras bug)
 from random import randint
-from datetime import date, datetime
+from datetime import  datetime
 from src.database.NewsFeature import NewsFeature
 from src.StockAction import StockAction
 from src.loadin_test import load_predict
 from src.database.database_create import create_temp_news_database, create_temp_stock_database, delete_temp_news_database, delete_temp_stock_database
-from src.database.fetch_and_store import fetch_and_store_articles, fetch_and_store_articles_to_temporary_db, get_articles_by_date
-from src.database.non_api_fetch_and_store_stocks import fetch_and_store_stock_data, fetch_and_store_stock_data_to_temporary_db, get_stock_data_by_date, print_stock_data
+from src.database.fetch_and_store import fetch_and_store_articles_to_temporary_db
+from src.database.non_api_fetch_and_store_stocks import fetch_and_store_stock_data_to_temporary_db
 import nltk
 nltk.download('punkt')
 import sys
@@ -74,7 +71,7 @@ def generate_raport(stock, prediction, name):
 
 class StockPredictionWindow(QMainWindow, Ui_MainMenuWindow):
     def __init__(self, main_menu_window):
-        logging.basicConfig(level=logging.INFO, filename='logs.log', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+        logging.basicConfig(level=logging.INFO, filename='docs/logs.log', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
         super().__init__()
         self.setupUi(self)
         self.show()

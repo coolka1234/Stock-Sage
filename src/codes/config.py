@@ -1,5 +1,5 @@
 from logging import config
-from newspaper import Config, Article, Source
+from newspaper import Config
 config = Config()
 config.fetch_images = False
 #config.MAX_AUTHORS = 1

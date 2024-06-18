@@ -2,11 +2,10 @@ import sys
 from PyQt6.QtWidgets import QApplication, QSplashScreen
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
-from src.utility_functions import resource_path
 
 class SplashScreen(QSplashScreen):
     def __init__(self):
-        pixmap = QPixmap(resource_path("res/stock_sage_icon_v2.png"))
+        pixmap = QPixmap(("res/stock_sage_icon_v2.png"))
         super().__init__(pixmap)
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
         self.showMessage("Loading...", Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignCenter, Qt.GlobalColor.white)

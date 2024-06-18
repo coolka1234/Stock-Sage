@@ -1,15 +1,11 @@
-from datetime import date, datetime
-from re import S
-from turtle import up
 from src.gui.NewsBriefing import Ui_MainMenuWindow
 from PyQt6.QtWidgets import (
-    QApplication, QDialog, QMainWindow, QMessageBox, QFileDialog
+    QApplication, QMainWindow, QMessageBox
 )
-from PyQt6.QtCore import QDateTime, QDate
+from PyQt6.QtCore import QDateTime
 from src.database.database_create import delete_news_database
-from src.database.fetch_and_store import fetch_and_store_articles, get_articles_by_date
+from src.database.fetch_and_store import fetch_and_store_articles
 from src.utility_functions import change_date_format, find_between
-from PyQt6.QtCore import QDateTime, QDate
 from src.gui.SingleArticleWindow import SingleArticleWindow
 from src.database.NewsFeature import NewsFeature
 from src.update_api_scrape import update_single_news

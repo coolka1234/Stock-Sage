@@ -3,7 +3,6 @@
 
 import numpy as np
 from tensorflow.keras.models import load_model # type: ignore (this has to be here, its a known keras bug)
-from sklearn.preprocessing import MinMaxScaler
 import pickle
 import re
 import matplotlib.pyplot as plt
@@ -18,7 +17,7 @@ def preprocess_text(text):
     text = text.lower()
     return text
 def load_predict(news_array, stock_array):
-    logging.basicConfig( level=logging.DEBUG, filename='logs.log', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    logging.basicConfig( level=logging.DEBUG, filename='docs/logs.log', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
     logging.debug('Loading model')
     model = load_model(resource_path_gp('src/models/stock_prediction_model.h5'))
     logging.debug('Model loaded')

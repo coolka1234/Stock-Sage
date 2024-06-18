@@ -1,6 +1,4 @@
-from calendar import c
 import numpy as np
-import pandas as pd
 import src.database.NewsFeature as NewsFeature
 import sqlite3
 import src.StockAction as StockAction
