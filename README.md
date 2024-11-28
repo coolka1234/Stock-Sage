@@ -10,3 +10,7 @@ Stock helper and neural network to analyze prices of stock trades in accordance 
 PSA:
 Model is already built, and because data size was around ~ 0.5 GB, it has been removed, and thus training the model will not work.
 Model is saved to .h5 file.
+![Main Menu](https://github.com/user-attachments/assets/79b27312-4624-464f-8dc3-e24e4fb4c62e)
+![News Briefing](https://github.com/user-attachments/assets/2d7fa1b4-640b-4469-b52c-5c668a9a1e97)
+![Stock Briefing](https://github.com/user-attachments/assets/74079f0f-945d-4287-a71d-c7d17868ce9a)
+![AI Stock Price Predictions](https://github.com/user-attachments/assets/4eceee7f-e61b-4802-a2c9-359d8bd83f97)
