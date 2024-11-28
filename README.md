@@ -14,6 +14,8 @@ Model is saved to .h5 file.
 ![Main Menu](https://github.com/user-attachments/assets/79b27312-4624-464f-8dc3-e24e4fb4c62e)
 ### News Briefing
 ![News Briefing](https://github.com/user-attachments/assets/2d7fa1b4-640b-4469-b52c-5c668a9a1e97)
+### Clicked News
+![Individual News](https://github.com/user-attachments/assets/8d495538-f6c6-4b6c-b073-ce4fb9f8ccb2)
 ### Stock Briefing
 ![Stock Briefing](https://github.com/user-attachments/assets/74079f0f-945d-4287-a71d-c7d17868ce9a)
 ### AI Prediction of Stock Price at closing
